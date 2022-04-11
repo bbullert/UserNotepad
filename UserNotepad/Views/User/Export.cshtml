@@ -1,0 +1,79 @@
+﻿@using UserNotepad.ViewModels
+@model UserExportViewModel
+
+@{
+    ViewData["Title"] = "Export User Data";
+}
+
+@using (@Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="row">
+		
+		<div class="col-12 my-3">
+			<h3 class="">Export users</h3>
+			<h6 class="">Generate a report presenting users data set.</h6>
+			<hr />
+		</div>
+		
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.FileName)
+			@Html.EditorFor(model => model.FileName, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.FileName, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.FileType)
+			@Html.DropDownListFor(model => model.FileType, 
+				Model.FileTypeOptions, 
+				new { @class = "form-control" })
+			@Html.ValidationMessageFor(model => model.FileType, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="col-auto mt-3 mb-5 ml-auto">
+			@Html.ActionLink("Cancel", "Index", null, null, new { @class = "btn btn-light px-4" })
+		</div>
+
+		<div class="col-auto mt-3 mb-5">
+			<input type="submit" value="Confirm" class="btn btn-primary px-4" />
+		</div>
+
+	</div>
+}
+
+@*<div id="myModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+	<script type="text/javascript">
+		
+		@*$('select').on('change', function(e){
+		  console.log(this.value,
+					  this.options[this.selectedIndex].value,
+					  $(this).find("option:selected").val(),);
+
+			
+		});*@
+
+	</script>
+}

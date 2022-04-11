@@ -1,0 +1,43 @@
+﻿@using UserNotepad.Extensions.List
+
+@model IPagedList
+
+@{
+    string query = ViewContext.HttpContext.Request.QueryString.Value;
+}
+
+@if (Model.CurrentPage >= Model.FirstPage && Model.CurrentPage <= Model.LastPage)
+{
+    <p>
+        @(Model.PageItemsStartIndex + 1)<span> - </span>@(Model.PageItemsEndIndex + 1)<span> of @Model.TotalItems results.</span>
+    </p>
+}
+
+<nav>
+    <ul class="pagination">
+
+        <li class="page-item @(Model.CurrentPage == Model.FirstPage ? "disabled" : "")">
+            <a class="page-link" href=@( Url.Action(null, null, new { id = Model.FirstPage } ) + query)>&laquo;</a>
+        </li>
+
+        <li class="page-item @(Model.PreviousPage == null ? "disabled" : "")">
+            <a class="page-link" href=@( Url.Action(null, null, new { id = Model.PreviousPage } ) + query)>&lsaquo;</a>
+        </li>
+
+        @for (int i = Model.PagerRangeStartPage; i < Model.PagerRangeEndPage; i++)
+        {
+            <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                <a class="page-link" href=@( Url.Action(null, null, new { id = i } ) + query)>@i</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.NextPage == null ? "disabled" : "")">
+            <a class="page-link" href=@( Url.Action(null, null, new { id = Model.NextPage } ) + query)>&rsaquo;</a>
+        </li>
+
+        <li class="page-item @(Model.CurrentPage == Model.LastPage? "disabled" : "")">
+            <a class="page-link" href=@( Url.Action(null, null, new { id = Model.LastPage } ) + query)>&raquo;</a>
+        </li>
+
+    </ul>
+</nav>

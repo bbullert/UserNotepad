@@ -1,0 +1,75 @@
+﻿@using UserNotepad.ViewModels
+@model UserExplorerViewModel
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="row">
+    <div class="col-12">
+        @using (@Html.BeginForm("Search", null, FormMethod.Post))
+		{
+			<div class="row">
+
+				<div class="col-md-5 mb-3">
+					<div class="input-group">
+						@Html.EditorFor(x => x.Filter, new { htmlAttributes = new { @class = "form-control", @placeholder = "Search" } })
+						<div class="input-group-append">
+							<input type="submit" value="Search" class="btn btn-primary px-4" />
+						</div>
+					</div>
+				</div>
+
+                <div class="col-auto mb-3 ml-auto">
+					@Html.ActionLink("Add User", "Create", null, null, new { @class = "btn btn-primary" })
+				</div>
+
+                <div class="col-auto mb-3">
+					@Html.ActionLink("Export Users", "Export", null, null, new { @class = "btn btn-primary" })
+				</div>
+
+			</div>
+		}
+    </div>
+	<div class="col-12">
+		<table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Birth Date</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col" style="width: 0;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+					<tr>
+						<td>@Html.DisplayFor(x => user.FirstName)</td>
+						<td>@Html.DisplayFor(x => user.LastName)</td>
+						<td>@Html.DisplayFor(x => user.BirthDate)</td>
+						<td>@Html.DisplayFor(x => user.Gender)</td>
+						<td>@Html.DisplayFor(x => user.Email)</td>
+						<td>@Html.DisplayFor(x => user.PhoneNumber)</td>
+						<td>
+							@Html.ActionLink("Details", "Details", null, new { id = user.Id })
+						</td>
+					</tr>
+                }
+            </tbody>
+
+        </table>
+
+		@if (!Model.Users.Any())
+		{
+			<h6 class="text-center py-5">No user was found :/</h6>
+		}
+
+	</div>
+    <div class="col-12">
+        @await Component.InvokeAsync("Pager", Model.Users)
+    </div>
+</div>
